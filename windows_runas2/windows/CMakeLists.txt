@@ -106,3 +106,11 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
+  
+set_target_properties(${BINARY_NAME} PROPERTIES
+  VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${BINARY_NAME}"
+)
+
+set_target_properties(${BINARY_NAME} PROPERTIES
+  LINK_FLAGS "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
+)
