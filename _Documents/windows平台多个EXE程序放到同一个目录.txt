@@ -1,0 +1,14 @@
+windows平台下，flutter编译出的release程序，exe文件和依赖的动态库dll在同一个目录，程序数据文件及资源文件默认在data目录下。
+当将两个flutter的exe程序放到同一个目录下时，可以共用dll以减少发布包的大小。
+(dll不能有版本冲突，两个程序在开发时使用同样的flutter(dart)版本，依赖的第三方库版本要一致)
+但是data目录下程序数据文件及资源文件可能会冲突，需要修改编译exe时的data目录的目录名称，用不同的目录名称。
+需要修改的文件如下：
+1.在工程目录下的windows目录里，找到windows\CMakeLists.txt。
+  找到：set(INSTALL_BUNDLE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/data")
+  修改为：set(INSTALL_BUNDLE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/data0")
+  将“data”修改为其他文件名。
+2.在windows目录下，找到windows\runner\main.cpp。
+  找到：flutter::DartProject project(L"data");
+  修改为：flutter::DartProject project(L"data0");
+注意1和2里的目录名称要一致。
+这样，程序编译出来的数据文件及资源文件就在data0目录下。
